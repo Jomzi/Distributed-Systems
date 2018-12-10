@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: head(title='WEB-Client New Booking')"></head>
+<body>
+<div th:replace="fragments/header :: menu('booking/view')"></div>
+<div th:replace="fragments/header :: noserver(${noserver})"></div>
+<div class="card" style="width: 18rem;">
+    <div class="card-body" th:if="${noserver==null || !noserver}">
+        <h5 class="card-title" th:text="${message}+'Booking'"></h5>
+        <div class="card-text" th:if="${booking==null}">
+            <h2 th:if="${notfound}" th:text="${'Could not find booking '+notfound}" class="error"></h2>
+            <h2 th:if="${delete!=null && delete==true}" th:text="${'The booking is deleted'}" class="error"></h2>
+            <h2 th:if="${delete!=null && delete==false}" th:text="${'Could not delete booking please try again later'}"
+                class="error"></h2>
+            <div class="form-group">
+                <label htmlFor="bid">Booking number</label>
+                <input type="text" id="bid" class="form-control"/>
+            </div>
+            <div>
+                <button class="btn btn-dark btn-block"
+                        onClick="location.href='/booking/view/'+document.getElementById('bid').value">
+                    Find
+                </button>
+            </div>
+        </div>
+        <div class="card-text booking-view" th:if="${booking!=null && booking.id!=null}" th:object="${booking}">
+            <div>
+                <label>Booking ID</label><br/>
+                <span th:text="*{id}"></span>
+            </div>
+            <div>
+                <label>First Name</label><br/>
+                <span th:text="*{person?.firstname}"></span>
+            </div>
+            <div>
+                <label>Last Name</label><br/>
+                <span th:text="*{person?.lastname}"></span>
+            </div>
+            <div>
+                <label>Street</label><br/>
+                <span th:text="*{person?.address?.street}"></span>
+            </div>
+            <div>
+                <label>City</label><br/>
+                <span th:text="*{person?.address?.city}"></span>
+            </div>
+            <div>
+                <label>County</label><br/>
+                <span th:text="*{person?.address?.county}"></span>
+            </div>
+            <div>
+                <label>Car</label>
+                <div>
+                    <label>Make</label><br/>
+                    <span th:text="*{car?.make}"></span>
+                </div>
+                <div>
+                    <label>Mode;</label><br/>
+                    <span th:text="*{car?.model}"></span>
+                </div>
+                <div>
+                    <label>Color</label><br/>
+                    <span th:text="*{car?.color}"></span>
+                </div>
+            </div>
+            <div>
+                <label>Collect car at</label><br/>
+                <span th:text="*{{bookingTimeFrame?.bookingTimeFrom}}"></span>
+            </div>
+            <div>
+                <label>Return car at</label><br/>
+                <span th:text="*{{bookingTimeFrame?.bookingTimeTo}}"></span>
+            </div>
+            <div>
+                <label>Booked/Changed at</label><br/>
+                <span th:text="*{{reservationTime}}"></span>
+            </div>
+            <div>
+                <button class="btn btn-dark btn-block" th:data-id="${booking?.id}"
+                        onClick="location.href='/booking/modify/'+this.dataset.id">
+                    Change
+                </button>
+                <button class="btn btn-danger btn-block" th:data-id="${booking?.id}"
+                        onClick="if(confirm('Do you want to delete this booking?' )){location.href='/booking/delete/'
+                        +this.dataset.id}">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

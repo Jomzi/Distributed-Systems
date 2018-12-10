@@ -1,0 +1,22 @@
+.card {
+    margin: auto auto;
+    margin-top: 20px;
+    width: 80% !important;
+}
+
+.error {
+    color: #FF0000;
+}
+
+.booking-view div {
+    padding-top: 5px;
+}
+
+.booking-view label {
+    font-weight: bold;
+}
+
+.no-server-message {
+    width: 100%;
+    text-align: center;
+}
